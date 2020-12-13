@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
+use Request;
 use App\Product; 
 
 class CartController extends Controller
@@ -28,7 +29,7 @@ class CartController extends Controller
         return view('cart');
     }
 
-    public function addCart($id)
+    public function addCart($id,Request $request)
     {
         $product=Product::find($id);
         if(!$product){
@@ -36,13 +37,14 @@ class CartController extends Controller
         }
 
         $cart=session()->get('cart');
+        $quantity=Request::input('qty');
 
         //kalo empty dia jadiin ini produk pertama
         if(!$cart){
             $cart=[
                     $id => [
                         "name" => $product->product_name,
-                        "quantity" => 1,
+                        "quantity" => $quantity,
                         "price" => $product->product_price,
                         "photo" => $product->product_photo
                     ]
@@ -53,7 +55,7 @@ class CartController extends Controller
 
         //kalo ga empty check dia ada ga produknya yg mau dimasukin dicart
         if(isset($cart[$id])){
-            $cart[$id]['quantity']++;
+            $cart[$id]['quantity']=$quantity;
             session()->put('cart',$cart);
             return redirect('cart');
         }
@@ -61,7 +63,7 @@ class CartController extends Controller
         //kalo pas dicek gada di cart dia masukkin ke cart
         $cart[$id] = [
             "name" => $product->product_name,
-            "quantity" => 1,
+            "quantity" => $quantity,
             "price" => $product->product_price,
             "photo" => $product->product_photo
         ];

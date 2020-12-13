@@ -18,6 +18,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- Logo -->
+    <link rel="shortcut icon" href="{{ asset('assets/logo.png') }}"/>
 </head>
 <body>
     <div id="app">
