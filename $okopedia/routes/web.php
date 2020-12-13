@@ -16,9 +16,21 @@ use Illuminate\Support\Facades\Auth;
 
 
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/', 'GuestController@index2')->name('guestHome');
 
+Route::get('/detailPage/{id}', 'DetailController@index3')->name('detailPage');
 
+Route::get('/addCart/{id}', 'CartController@addCart')->name('addCart');
+
+Route::get('/cart', 'CartController@cart')->name('cart');
+
+Route::patch('update-cart', 'CartController@update');
+Route::delete('remove-from-cart', 'CartController@remove');

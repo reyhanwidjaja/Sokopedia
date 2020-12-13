@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Member Home')
+@section('title', 'Guest Home')
 @section('content')
 <div class="d-flex justify-content-center" style="margin-top:50px;">
             @foreach($product as $products)
