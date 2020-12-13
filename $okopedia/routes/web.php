@@ -28,6 +28,8 @@ Route::get('/', 'GuestController@index2')->name('guestHome');
 
 Route::get('/detailPage/{id}', 'DetailController@index3')->name('detailPage');
 
+Route::get('/adCart/{id}', 'CartController@adCart')->name('adCart');
+
 Route::get('/addCart/{id}', 'CartController@addCart')->name('addCart');
 
 Route::get('/cart', 'CartController@cart')->name('cart');

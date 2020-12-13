@@ -28,4 +28,10 @@ class DetailController extends Controller
         $product=Product::find($id);
         return view('detailProduct',['product'=>$product]);
     }
+
+    public function adcart($id){
+        $product=Product::find($id);
+        return view('addCart',['product'=>$product]);
+    }
+
 }

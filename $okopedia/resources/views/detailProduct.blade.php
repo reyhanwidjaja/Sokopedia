@@ -13,7 +13,7 @@
             <hr style="height:2px;border-width:0;color:gray;background-color:gray">
             <h5>Description: {{$product->product_description}}</h5>
             <br>
-            <a href="/addCart/{{$product->id}}" class="btn btn-success btn-sm">Add To Cart</a>
+            <a href="/adcart/{{$product->id}}" class="btn btn-success btn-sm">Add To Cart</a>
             </div>
 </div>
 @endsection
