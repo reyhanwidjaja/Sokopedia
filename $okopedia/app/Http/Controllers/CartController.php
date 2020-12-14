@@ -50,14 +50,14 @@ class CartController extends Controller
                     ]
                 ];
                 session()->put('cart',$cart);
-                return redirect('cart');
+                return redirect('cart')->with('success', 'Product added to cart successfully!');
         }
 
         //kalo ga empty check dia ada ga produknya yg mau dimasukin dicart
         if(isset($cart[$id])){
             $cart[$id]['quantity']=$quantity;
             session()->put('cart',$cart);
-            return redirect('cart');
+            return redirect('cart')->with('success', 'Product added to cart successfully!');
         }
 
         //kalo pas dicek gada di cart dia masukkin ke cart
@@ -68,31 +68,41 @@ class CartController extends Controller
             "photo" => $product->product_photo
         ];
         session()->put('cart',$cart);
-        return redirect('cart');
+        return redirect('cart')->with('success', 'Product added to cart successfully!');
     }
 
-    //update cart
     public function update(Request $request)
     {
         if($request->id and $request->quantity)
         {
             $cart = session()->get('cart');
+
             $cart[$request->id]["quantity"] = $request->quantity;
+
             session()->put('cart', $cart);
-            session()->flash('success', 'Cart updated successfully');
+
+            // return response()->json(['msg' => 'Cart updated successfully', 'data' => $htmlCart, 'total' => $total, 'subTotal' => $subTotal]);
+            return redirect('cart');
+            //session()->flash('success', 'Cart updated successfully');
         }
     }
 
-    //delete cart
     public function remove(Request $request)
     {
         if($request->id) {
+
             $cart = session()->get('cart');
+
             if(isset($cart[$request->id])) {
+
                 unset($cart[$request->id]);
+
                 session()->put('cart', $cart);
             }
-            session()->flash('success', 'Product removed successfully');
+
+            // return response()->json(['msg' => 'Product removed successfully', 'data' => $htmlCart, 'total' => $total]);
+            return redirect('cart');
+            //session()->flash('success', 'Product removed successfully');
         }
     }
 }
