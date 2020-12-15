@@ -37,3 +37,5 @@ Route::get('/cart', 'CartController@cart')->name('cart');
 
 Route::patch('update-cart', 'CartController@update');
 Route::delete('remove-from-cart', 'CartController@remove');
+
+Route::get('/admin', 'AdminController@index');
