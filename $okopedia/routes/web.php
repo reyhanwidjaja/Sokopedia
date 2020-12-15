@@ -39,3 +39,4 @@ Route::patch('update-cart', 'CartController@update');
 Route::delete('remove-from-cart', 'CartController@remove');
 
 Route::get('/admin', 'AdminController@index');
+Route::get('/add-category', 'AdminController@addCategory');

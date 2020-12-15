@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use App\Role_User;
 
 class RegisterController extends Controller
 {
@@ -65,10 +67,25 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $role_id;
+        if(Str::contains($data['email'], '@sk-admin')) {
+            $role_id = 1;
+        }
+        else {
+            $role_id = 2;
+        }
+
+        $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                ]);
+
+        // $role = Role_User::create([
+        //     'role_id' => $role_id,
+        //     'user_id' => $user['id'],
+        // ]);
+
+        return $user;
     }
 }
