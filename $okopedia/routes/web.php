@@ -28,15 +28,14 @@ Route::get('/', 'GuestController@index2')->name('guestHome');
 
 Route::get('/detailPage/{id}', 'DetailController@index3')->name('detailPage');
 
-Route::get('/adCart/{id}', 'DetailController@adCart')->name('adCart');
+Route::get('/add-to-cart-page/{id}', 'DetailController@addCartPage')->name('addCartPage');
 
-Route::get('/addCart/{id}', 'CartController@addCart')->name('addCart');
 Route::post('/cart/{id}', 'CartController@addCart')->name('cart');
 
 Route::get('/cart', 'CartController@cart')->name('cart');
 
-Route::patch('update-cart', 'CartController@update');
-Route::delete('remove-from-cart', 'CartController@remove');
+Route::post('update-cart', 'CartController@update')->name('updateCartItem');
+Route::post('remove-from-cart', 'CartController@remove')->name('deleteCartItem');
 
 Route::get('/admin', 'AdminController@index')->name('adminHome');
 

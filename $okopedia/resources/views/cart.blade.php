@@ -4,44 +4,50 @@
     <table id="cart" class="table table-hover table-condensed">
         <thead>
         <tr>
-            <th style="width:50%">Product</th>
+            <th style="width:30%">Product</th>
             <th style="width:10%">Price</th>
             <th style="width:8%">Quantity</th>
             <th style="width:22%" class="text-center">Subtotal</th>
-            <th style="width:10%"></th>
+            <th style="width:5%"></th>
         </tr>
         </thead>
         <tbody>
         <?php $total = 0 ?>
-        @if(session('cart'))
-            @foreach(session('cart') as $id => $details)
-                <?php $total += $details['price'] * $details['quantity'] ?>
+            @foreach($carts as $c)
+                <?php $total += $c->products->first()->product_price * $c->quantity ?>
                 <tr>
                     <td data-th="Product">
                         <div class="row">
-                            <div class="col-sm-3 hidden-xs"><img src="{{ $details['photo'] }}" width="100" height="100" class="img-responsive"/></div>
+                            <div class="col-sm-3 hidden-xs"><img src="{{ $c->products->first()->product_photo }}" width="100" height="100" class="img-responsive"/></div>
                             <div class="col-sm-9">
-                                <h4 class="nomargin">{{ $details['name'] }}</h4>
+                                <h4 class="nomargin">{{ $c->products->first()->product_name }}</h4>
                             </div>
                         </div>
                     </td>
-                    <td data-th="Price">IDR.{{ $details['price'] }}</td>
+                    <td data-th="Price">IDR.{{ $c->products->first()->product_price }}</td>
                     <td data-th="Quantity">
-                        <input type="number" value="{{ $details['quantity'] }}" class="form-control quantity" />
+                        <form action="{{ route('updateCartItem') }}" method="POST">
+                            @csrf
+                            <input type="number" name="qty" value="{{ $c->quantity }}" class="form-control quantity" />
+                            <input type="hidden" name="id" value="{{$c->products->first()->id}}"> <br>
+                            <input type="submit" value="update" class="btn btn-primary">
+                        </form>
                     </td>
-                    <td data-th="Subtotal" class="text-center">IDR.{{ $details['price'] * $details['quantity'] }}</td>
-                    <td class="actions" data-th="">
-                        <button class="btn btn-info btn-sm update-cart" data-id="{{ $id }}"><i class="fa fa-refresh"></i></button>
-                        <button class="btn btn-danger btn-sm remove-from-cart" data-id="{{ $id }}"><i class="fa fa-trash-o"></i></button>
+                        <td class="text-center">IDR.{{ $c->products->first()->product_price * $c->quantity }}</td>
+                        <td class="actions">
+                        <form action="{{ route('deleteCartItem') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="id" value="{{$c->products->first()->id}}">
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                        </form>
                     </td>
                 </tr>
             @endforeach
-        @endif
         </tbody>
         <tfoot>
         <tr>
             <td><a href="{{ url('/') }}" class="btn btn-success"><i class="fa fa-angle-left"></i> Continue Shopping</a>
-            @if(session('cart'))
+            @if($carts)
             <a href="{{ url('/') }}" class="btn btn-danger"><i class="fa fa-angle-left"></i> Checkout</a></td>
             @endif
             <td colspan="2" class="hidden-xs"></td>

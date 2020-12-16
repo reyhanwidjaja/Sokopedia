@@ -54,8 +54,9 @@ class User extends Authenticatable
     public function headerTransactions() {
         return $this->hasMany(HeaderTransaction::class);
     }
+
     public function carts() {
-        return $this->hasMany(Cart::class);
+        return $this->hasMany(Cart::class, 'user_id', 'id');
     }
 
     public function authorizeRoles($roles)
