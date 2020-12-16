@@ -29,7 +29,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-success shadow-sm">
             <div class="container">
-                <a class="navbar-brand text-success text-light" href="{{ url('/') }}">
+                <a class="navbar-brand text-success text-light" href="{{ route('adminHome') }}">
                     <b>Admin</b>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -44,8 +44,8 @@
                                 Products
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Add product</a>
-                                <a class="dropdown-item" href="#">List Product</a>
+                                <a class="dropdown-item" href="/add-product">Add product</a>
+                                <a class="dropdown-item" href="/list-product">List Product</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -53,8 +53,8 @@
                                 Category
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Add category</a>
-                                <a class="dropdown-item" href="#">List Category</a>
+                                <a class="dropdown-item" href="/add-category-page">Add category</a>
+                                <a class="dropdown-item" href="/list-category">List Category</a>
                             </div>
                         </li>
                     </ul>
@@ -82,6 +82,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/">Shopping site</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

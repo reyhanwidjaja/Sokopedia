@@ -38,5 +38,14 @@ Route::get('/cart', 'CartController@cart')->name('cart');
 Route::patch('update-cart', 'CartController@update');
 Route::delete('remove-from-cart', 'CartController@remove');
 
-Route::get('/admin', 'AdminController@index');
-Route::get('/add-category', 'AdminController@addCategory');
+Route::get('/admin', 'AdminController@index')->name('adminHome');
+
+Route::get('/add-category-page', 'AdminController@addCategoryPage');
+Route::post('/add-category-page', 'AdminController@insertCategory')->name('insertCategory');
+Route::get('/list-category', 'AdminController@showCategory')->name('showCategory');
+Route::get('/product-by-category/{id}', 'AdminController@showDetailCategory')->name('categoryDetail');
+
+Route::get('/list-product', 'AdminController@showProduct')->name('showProduct');
+Route::get('/add-product', 'AdminController@insertProductPage')->name('insertProduct');
+Route::post('/add-product', 'AdminController@insertProduct')->name('insertProduct');
+Route::post('/delete-product', 'AdminController@deleteProduct')->name('deleteProduct');
