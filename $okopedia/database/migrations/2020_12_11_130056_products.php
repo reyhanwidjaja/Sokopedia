@@ -17,7 +17,7 @@ class Products extends Migration
             $table->increments('id');
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('Categories');
-            $table->string('product_name');
+            $table->string('product_name')->unique();
             $table->string('product_photo');
             $table->text('product_description');
             $table->integer('product_price');
