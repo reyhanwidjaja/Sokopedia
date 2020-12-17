@@ -23,4 +23,10 @@ class GuestController extends Controller
         $product=Product::paginate(3);
         return view('guestHome',['product'=>$product]);
     }
+
+    public function searchProduct(Request $request) {
+        $product = Product::where('product_name', 'like', "%".$request->search."%")->paginate(3);
+
+        return view('guestHome', ['product' => $product]);
+    }
 }

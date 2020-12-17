@@ -47,8 +47,8 @@
         <tfoot>
         <tr>
             <td><a href="{{ url('/') }}" class="btn btn-success"><i class="fa fa-angle-left"></i> Continue Shopping</a>
-            @if($carts)
-            <a href="{{ url('/') }}" class="btn btn-danger"><i class="fa fa-angle-left"></i> Checkout</a></td>
+            @if(!$carts->isEmpty())
+                <a href="{{ route('checkout') }}" class="btn btn-danger"><i class="fa fa-angle-left"></i> Checkout</a></td>
             @endif
             <td colspan="2" class="hidden-xs"></td>
             <td class="hidden-xs text-center"><strong>Total IDR.{{ $total }}</strong></td>

@@ -41,8 +41,9 @@ class CartController extends Controller
 
         $cartItem = Cart::where(['user_id' => $user->id, 'product_id' => $product->id])->get();
 
-        if($cartItem != null) {
+        if(!$cartItem->isEmpty()) {
             Cart::where(['user_id' => $user->id, 'product_id' => $product->id])->update(['quantity' => $request->qty]);
+            return redirect('/cart');
         }
 
         Cart::create([
