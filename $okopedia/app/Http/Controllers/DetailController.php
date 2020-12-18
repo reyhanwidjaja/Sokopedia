@@ -29,7 +29,7 @@ class DetailController extends Controller
         return view('detailProduct',['product'=>$product]);
     }
 
-    public function adCart($id){
+    public function addCartPage($id){
         $product=Product::find($id);
         return view('addCart',['product'=>$product]);
     }

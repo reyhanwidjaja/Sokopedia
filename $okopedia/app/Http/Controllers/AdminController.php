@@ -81,7 +81,7 @@ class AdminController extends Controller
             [
                 'name' => 'required', 'string', 'unique:products',
                 'description' => 'required', 'string',
-                'price' => 'required', 'min:100',
+                'price' => 'required', 'numeric', 'min:100',
                 'image' => 'required', 'mimes:jpeg,jpg,png', 'max:10000'
             ],
             [

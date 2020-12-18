@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.guest')
 @section('title', 'Guest Home')
 @section('content')
 <div class="d-flex justify-content-center" style="margin-top:50px;">

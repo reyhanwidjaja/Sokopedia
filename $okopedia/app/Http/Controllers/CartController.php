@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 
-use Request;
+use Illuminate\Http\Request;
 use App\Product; 
+use App\Cart;
 
 class CartController extends Controller
 {
@@ -26,83 +27,47 @@ class CartController extends Controller
      */
 
     public function cart(){
-        return view('cart');
+        $user = auth()->user();
+
+        $carts = Cart::with('products')->where('user_id', '=', $user->id)->get();
+
+        return view('cart', ['carts' => $carts]);
     }
 
     public function addCart($id,Request $request)
     {
         $product=Product::find($id);
-        if(!$product){
-            abort(404);
+        $user = auth()->user();
+
+        $cartItem = Cart::where(['user_id' => $user->id, 'product_id' => $product->id])->get();
+
+        if(!$cartItem->isEmpty()) {
+            Cart::where(['user_id' => $user->id, 'product_id' => $product->id])->update(['quantity' => $request->qty]);
+            return redirect('/cart');
         }
 
-        $cart=session()->get('cart');
-        $quantity=Request::input('qty');
+        Cart::create([
+            'user_id' => $user->id,
+            'product_id' => $product->id,
+            'quantity' => $request->qty,
+        ]);
 
-        //kalo empty dia jadiin ini produk pertama
-        if(!$cart){
-            $cart=[
-                    $id => [
-                        "name" => $product->product_name,
-                        "quantity" => $quantity,
-                        "price" => $product->product_price,
-                        "photo" => $product->product_photo
-                    ]
-                ];
-                session()->put('cart',$cart);
-                return redirect('cart')->with('success', 'Product added to cart successfully!');
-        }
-
-        //kalo ga empty check dia ada ga produknya yg mau dimasukin dicart
-        if(isset($cart[$id])){
-            $cart[$id]['quantity']=$quantity;
-            session()->put('cart',$cart);
-            return redirect('cart')->with('success', 'Product added to cart successfully!');
-        }
-
-        //kalo pas dicek gada di cart dia masukkin ke cart
-        $cart[$id] = [
-            "name" => $product->product_name,
-            "quantity" => $quantity,
-            "price" => $product->product_price,
-            "photo" => $product->product_photo
-        ];
-        session()->put('cart',$cart);
-        return redirect('cart')->with('success', 'Product added to cart successfully!');
+        return redirect('/cart');
     }
 
     public function update(Request $request)
     {
-        if($request->id and $request->quantity)
-        {
-            $cart = session()->get('cart');
-
-            $cart[$request->id]["quantity"] = $request->quantity;
-
-            session()->put('cart', $cart);
-
-            // return response()->json(['msg' => 'Cart updated successfully', 'data' => $htmlCart, 'total' => $total, 'subTotal' => $subTotal]);
-            return redirect('cart');
-            //session()->flash('success', 'Cart updated successfully');
-        }
+        $user = auth()->user();
+        Cart::where(['user_id' => $user->id, 'product_id' => $request->id])->update(['quantity' => $request->qty]);
+        
+        return redirect('/cart');
     }
 
     public function remove(Request $request)
     {
-        if($request->id) {
+        $user = auth()->user();
+        Cart::where(['user_id' => $user->id, 'product_id' => $request->id])->delete();
 
-            $cart = session()->get('cart');
-
-            if(isset($cart[$request->id])) {
-
-                unset($cart[$request->id]);
-
-                session()->put('cart', $cart);
-            }
-
-            // return response()->json(['msg' => 'Product removed successfully', 'data' => $htmlCart, 'total' => $total]);
-            return redirect('cart');
-            //session()->flash('success', 'Product removed successfully');
-        }
+        return redirect('/cart');
     }
 }
